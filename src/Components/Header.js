@@ -14,7 +14,7 @@ export class Header extends Component{
         this.handleAll = this.handleAll.bind(this);
         this.handleActive = this.handleActive.bind(this);
         this.handleCompleted = this.handleCompleted.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
+        this.handleSelectAll = this.handleSelectAll.bind(this);
         this.handleClearCompleted = this.handleClearCompleted.bind(this);
     }
 
@@ -36,42 +36,58 @@ export class Header extends Component{
                     handleAll={this.handleAll}
                     handleActive= {this.handleActive}
                     handleCompleted={this.handleCompleted}
-                    handleSelect={this.handleSelect}
+                    handleSelectAll={this.handleSelectAll}
                     handleClearCompleted={this.handleClearCompleted}
                 />
             </div>
         );
     }
 
-    componentDidMount() { 
+    handleAll() {
         if (this.storage) { 
             let all = this.storage.getAll();
             this.setState({ data: all });
         }
+        
     }
 
-    handleAll(data) {
-        // this.setState({data: this.state.data.filter();
+    handleActive() {
+        let newData = [];
+        let all = this.storage.getAll();
+        for(let i=0 ; i< all.length ; i++) {
+            if(all[i].status === false) {
+                newData.push(all[i]);
+            }
+        }
+        this.setState({ data: newData });
     }
 
-    handleActive(data) {
-        this.setState({data: this.state.data.filter(data => !data.status)});
+    handleCompleted() {
+        let newData = [];
+        let all = this.storage.getAll();
+        for(let i=0 ; i< all.length ; i++) {
+            if(all[i].status === true) {
+                newData.push(all[i]);
+            }
+        }
+        this.setState({ data: newData });
     }
 
-    handleCompleted(data) {
-        this.setState({data: this.state.data.filter(data => data.status)});
+    handleSelectAll() {
+        // for(let i=0 ; i< this.state.data.length ; i++) {
+        //     if(this.state.data[i] === false) {
+        //         this.state.data[i] = true;
+        //     }
+        // }
+        this.setState({data: this.state.data})
     }
 
-    handleSelect(data) {
-        // this.setState({data: this.state.data.filter(data =>)})
+    handleClearCompleted() {
+        this.setState({data: this.state.data.filter(data => data.status === false)});
+        this.storage.write(this.state.data.filter(data => data.status === false));
     }
 
-
-    handleClearCompleted(data) {
-        this.setState({data: this.state.data.filter(data => data.status === false)})
-    }
-
-    handleOnChange(data, event) {
+    handleOnChange(event) {
         this.setState({data: event.target.value});
     }
 
@@ -97,6 +113,13 @@ export class Header extends Component{
 
     todoUpdated(todo) { 
         this.storage.write(this.state.data);
+    }
+
+    componentDidMount() { 
+        if (this.storage) { 
+            let all = this.storage.getAll();
+            this.setState({ data: all });
+        }
     }
 
 }
