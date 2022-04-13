@@ -74,12 +74,10 @@ export class Header extends Component{
     }
 
     handleSelectAll() {
-        // for(let i=0 ; i< this.state.data.length ; i++) {
-        //     if(this.state.data[i] === false) {
-        //         this.state.data[i] = true;
-        //     }
-        // }
-        this.setState({data: this.state.data})
+        let newList = this.state.data.map((data) => {
+            return {...data, status: true};
+        });
+        this.setState({data: newList});
     }
 
     handleClearCompleted() {
