@@ -18,7 +18,7 @@ export class Footer extends Component {
                     onClick={this.props.handleCompleted}
                 >Completed</button><hr/>
                 <button className="select"
-                    onClick={this.props.handleSelect}
+                    onClick={this.props.handleSelectAll}
                 >Select</button>
                 <button className="clear"
                     onClick={this.props.handleClearCompleted}

@@ -1,14 +1,15 @@
 import React, { Component } from "react"
 
 export class Todolist extends Component{
-    constructor() { 
-        super();
+    constructor(props) { 
+        super(props);
         this.state = { todo: {}}
     }
 
     render() { 
 
-        let todo = this.state.todo || {};
+        //let todo = this.state.todo || {};
+        let todo = this.props.todo || {};
         return (
             <>
             <div className="toDoItem">

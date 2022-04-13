@@ -8,7 +8,7 @@ export class Header extends Component{
     storage = null;
     constructor() {
         super();
-        this.state = { data: []};
+        this.state = { data: [], selected: false};
         this.storage = new Localstorage("key");
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleAll = this.handleAll.bind(this);
@@ -18,8 +18,10 @@ export class Header extends Component{
         this.handleClearCompleted = this.handleClearCompleted.bind(this);
     }
 
-    render() { 
 
+
+    render() {
+        const newData = this.state.data;
         return (
             <div className="toDoMain">
                 <form onSubmit={this.handleSubmit}>
@@ -74,8 +76,9 @@ export class Header extends Component{
     }
 
     handleSelectAll() {
+        this.setState({selected: !this.state.selected});
         let newList = this.state.data.map((data) => {
-            return {...data, status: true};
+            return {...data, status: this.state.selected};
         });
         this.setState({data: newList});
     }
